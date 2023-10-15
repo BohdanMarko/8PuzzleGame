@@ -5,7 +5,7 @@ namespace BFS;
 
 public sealed class TreeNodeProcessor
 {
-    enum MoveType
+    enum MoveDirection
     {
         Up,
         Down,
@@ -55,10 +55,10 @@ public sealed class TreeNodeProcessor
 
                 (sbyte I, sbyte J) init = GetZeroPosition(currentNode.State);
 
-                MoveZero(currentNode, init, MoveType.Down);     // ↓
-                MoveZero(currentNode, init, MoveType.Left);     // ←
-                MoveZero(currentNode, init, MoveType.Up);       // ↑
-                MoveZero(currentNode, init, MoveType.Right);    // →
+                MoveZero(currentNode, init, MoveDirection.Down);     // ↓
+                MoveZero(currentNode, init, MoveDirection.Left);     // ←
+                MoveZero(currentNode, init, MoveDirection.Up);       // ↑
+                MoveZero(currentNode, init, MoveDirection.Right);    // →
             }
 
             if (Queue.Any() is false)
@@ -80,12 +80,12 @@ public sealed class TreeNodeProcessor
         throw new Exception("Zero is missing in current state!");
     }
 
-    private (sbyte I, sbyte J) GetFinalZeroPosition((sbyte I, sbyte J) init, MoveType moveType) => moveType switch
+    private (sbyte I, sbyte J) GetFinalZeroPosition((sbyte I, sbyte J) init, MoveDirection moveDirection) => moveDirection switch
     {
-        MoveType.Up => (Convert.ToSByte(init.I - STEP), init.J),
-        MoveType.Down => (Convert.ToSByte(init.I + STEP), init.J),
-        MoveType.Right => (init.I, Convert.ToSByte(init.J + STEP)),
-        MoveType.Left => (init.I, Convert.ToSByte(init.J - STEP)),
+        MoveDirection.Up => (Convert.ToSByte(init.I - STEP), init.J),
+        MoveDirection.Down => (Convert.ToSByte(init.I + STEP), init.J),
+        MoveDirection.Right => (init.I, Convert.ToSByte(init.J + STEP)),
+        MoveDirection.Left => (init.I, Convert.ToSByte(init.J - STEP)),
         _ => throw new InvalidEnumArgumentException("Invalid Move Type!")
     };
 
@@ -107,12 +107,12 @@ public sealed class TreeNodeProcessor
         return true;
     }
 
-    private bool CheckIfMoveIsValid((sbyte I, sbyte J) init, MoveType moveType) => moveType switch
+    private bool CheckIfMoveIsValid((sbyte I, sbyte J) init, MoveDirection moveDirection) => moveDirection switch
     {
-        MoveType.Up => init.I > ZERO,
-        MoveType.Down => init.I < (STATE_LENGTH - STEP),
-        MoveType.Right => init.J < (STATE_LENGTH - STEP),
-        MoveType.Left => init.J > ZERO,
+        MoveDirection.Up => init.I > ZERO,
+        MoveDirection.Down => init.I < (STATE_LENGTH - STEP),
+        MoveDirection.Right => init.J < (STATE_LENGTH - STEP),
+        MoveDirection.Left => init.J > ZERO,
         _ => throw new InvalidEnumArgumentException("Invalid Move Type!")
     };
 
@@ -129,10 +129,10 @@ public sealed class TreeNodeProcessor
         VisitedStates.Add(finalNode.GetHashCode());
     }
 
-    private void MoveZero(TreeNode inputNode, (sbyte I, sbyte J) init, MoveType moveType)
+    private void MoveZero(TreeNode inputNode, (sbyte I, sbyte J) init, MoveDirection moveDirection)
     {
-        if (CheckIfMoveIsValid(init, moveType) is false) return;
-        (sbyte X, sbyte Y) final = GetFinalZeroPosition(init, moveType);
+        if (CheckIfMoveIsValid(init, moveDirection) is false) return;
+        (sbyte X, sbyte Y) final = GetFinalZeroPosition(init, moveDirection);
         byte[,] finalState = SwapStateValues(inputNode.State, init, final);
         AddChild(inputNode, finalState);
     }
