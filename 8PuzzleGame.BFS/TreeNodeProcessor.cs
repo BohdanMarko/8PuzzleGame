@@ -49,7 +49,7 @@ public sealed class TreeNodeProcessor
                 {
                     PrintResult(currentNode);
                     stopwatch.Stop();
-                    Console.WriteLine($"Total time: {stopwatch.ElapsedMilliseconds} ms");
+                    Console.WriteLine($"\nTotal time: {stopwatch.ElapsedMilliseconds} ms");
                     return;
                 }
 
@@ -61,8 +61,7 @@ public sealed class TreeNodeProcessor
                 MoveZero(currentNode, init, MoveDirection.Right);    // →
             }
 
-            if (Queue.Any() is false)
-                Console.WriteLine("No final state found!");
+            if (Queue.Any() is false) PrintResult(null!);
         }
         catch (Exception ex)
         {
@@ -154,17 +153,20 @@ public sealed class TreeNodeProcessor
 
     private void PrintResult(TreeNode finalNode)
     {
-        Console.WriteLine("Final state found!");
+        Console.WriteLine(finalNode is not null ? "Final state found!" : "No final state found!");
         Console.WriteLine($"Total visited states: {VisitedStates.Count}");
         Console.WriteLine($"Total skipped states: {SkippedStatesCount}");
-        Console.WriteLine($"Final node depth: {finalNode.Depth}");
-        Console.WriteLine();
-        PrintNode(finalNode.Parent, "Final state parent");
-        PrintNode(finalNode, "Final state");
+        if (finalNode is not null)
+        {
+            Console.WriteLine($"Final node depth: {finalNode.Depth}");
+            PrintNode(finalNode.Parent, "Final state parent");
+            PrintNode(finalNode, "Final state");
+        }
     }
 
     private void PrintNode(TreeNode node, string description)
     {
+        Console.WriteLine();
         Console.WriteLine($"{description} {node.NodeNumber}:");
         for (sbyte i = 0; i < STATE_LENGTH; i++)
         {
@@ -172,6 +174,5 @@ public sealed class TreeNodeProcessor
                 Console.Write($"{node.State[i, j]} ");
             Console.WriteLine();
         }
-        Console.WriteLine();
     }
 }
