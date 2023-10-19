@@ -1,18 +1,11 @@
-﻿using System.ComponentModel;
+﻿using _8PuzzleGame.Processors.Common;
+using System.ComponentModel;
 using System.Diagnostics;
 
-namespace BFS;
+namespace _8PuzzleGame.Processors;
 
-internal sealed class TreeNodeProcessor
+public sealed class DFSProcessor : IProcessor
 {
-    enum MoveDirection
-    {
-        Up,
-        Down,
-        Right,
-        Left
-    }
-
     private const byte STATE_LENGTH = 3;
     private const byte ZERO = 0;
     private const byte STEP = 1;
@@ -20,8 +13,7 @@ internal sealed class TreeNodeProcessor
     private int GlobalNodesCount = 1;
     private int SkippedStatesCount = 0;
 
-    private HashSet<int> VisitedStates = new HashSet<int>();
-    private Queue<TreeNode> Queue = new Queue<TreeNode>();
+    private Stack<TreeNode> Stack = new Stack<TreeNode>();
 
     private readonly byte[,] FinalState = new byte[STATE_LENGTH, STATE_LENGTH]
     {
@@ -37,37 +29,54 @@ internal sealed class TreeNodeProcessor
             var initialState = GetInputFromConsole();
             TreeNode inputNode = new(parent: null!, 1, initialState);
 
+            Console.Write("Write maximum tree depth >> ");
+            int depth_limit = int.Parse(Console.ReadLine()!);
+            Console.WriteLine();
+
             var stopwatch = Stopwatch.StartNew();
 
-            Queue.Enqueue(inputNode);
-            VisitedStates.Add(inputNode.GetHashCode());
+            Stack.Push(inputNode);
 
-            while (Queue.Any())
+            while (Stack.Any())
             {
-                TreeNode currentNode = Queue.Dequeue();
+                TreeNode currentNode = Stack.Pop();
                 if (CheckIfStateIsFinal(currentNode.State))
                 {
                     PrintResult(currentNode);
                     stopwatch.Stop();
-                    Console.WriteLine($"\nTotal time: {stopwatch.ElapsedMilliseconds} ms");
+                    Console.WriteLine($"\nTotal time in ms: {stopwatch.ElapsedMilliseconds} ms");
+                    Console.WriteLine($"Total time in s: {stopwatch.ElapsedMilliseconds / 1000} s");
                     return;
                 }
 
+                if (depth_limit == currentNode.Depth) continue;
+
                 (sbyte I, sbyte J) init = GetZeroPosition(currentNode.State);
 
-                MoveZero(currentNode, init, MoveDirection.Down);     // ↓
-                MoveZero(currentNode, init, MoveDirection.Left);     // ←
                 MoveZero(currentNode, init, MoveDirection.Up);       // ↑
                 MoveZero(currentNode, init, MoveDirection.Right);    // →
+                MoveZero(currentNode, init, MoveDirection.Left);     // ←
+                MoveZero(currentNode, init, MoveDirection.Down);     // ↓
             }
 
-            if (Queue.Any() is false) PrintResult(null!);
+            if (Stack.Any() is false) PrintResult(null!);
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
     }
+
+    private bool CompareArrays(byte[,] array1, byte[,] array2)
+    {
+        for (int i = 0; i < STATE_LENGTH; i++)
+            for (int j = 0; j < STATE_LENGTH; j++)
+                if (array1[i, j] != array2[i, j])
+                    return false;
+
+        return true;
+    }
+
 
     private (sbyte I, sbyte J) GetZeroPosition(byte[,] state)
     {
@@ -115,17 +124,27 @@ internal sealed class TreeNodeProcessor
         _ => throw new InvalidEnumArgumentException("Invalid Move Type!")
     };
 
+    private bool CheckIfStateAlreadyExists(TreeNode node, byte[,] state)
+    {
+        if (node.IsRoot)
+        {
+            if (CompareArrays(node.State, state)) return true;
+            else return false;
+        }
+        if (CompareArrays(node.State, state)) return true;
+        else return CheckIfStateAlreadyExists(node.Parent, state);
+    }
+
     private void AddChild(TreeNode inputNode, byte[,] finalState)
     {
         TreeNode finalNode = new(inputNode, ++GlobalNodesCount, finalState);
-        if (VisitedStates.Contains(finalNode.GetHashCode()))
+        if (CheckIfStateAlreadyExists(finalNode.Parent, finalState))
         {
             SkippedStatesCount++;
             return;
         }
         inputNode.AddChild(finalNode);
-        Queue.Enqueue(finalNode);
-        VisitedStates.Add(finalNode.GetHashCode());
+        Stack.Push(finalNode);
     }
 
     private void MoveZero(TreeNode inputNode, (sbyte I, sbyte J) init, MoveDirection moveDirection)
@@ -154,8 +173,8 @@ internal sealed class TreeNodeProcessor
     private void PrintResult(TreeNode finalNode)
     {
         Console.WriteLine(finalNode is not null ? "Final state found!" : "No final state found!");
-        Console.WriteLine($"Total visited states: {VisitedStates.Count}");
         Console.WriteLine($"Total skipped states: {SkippedStatesCount}");
+        Console.WriteLine($"Total nodes: {GlobalNodesCount}");
         if (finalNode is not null)
         {
             Console.WriteLine($"Final node depth: {finalNode.Depth}");

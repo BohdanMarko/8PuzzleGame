@@ -1,4 +1,4 @@
-﻿namespace BFS;
+﻿namespace _8PuzzleGame;
 
 public sealed class TreeNode
 {
@@ -32,3 +32,4 @@ public sealed class TreeNode
         return result;
     }
 }
+

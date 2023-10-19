@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "8PuzzleGame.BFS", "8PuzzleGame.BFS\8PuzzleGame.BFS.csproj", "{1FCFB0D2-7CF7-4057-8BE3-30AAF9301031}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8PuzzleGame.DFS", "8PuzzleGame.DFS\8PuzzleGame.DFS.csproj", "{558CA779-5F03-44D2-9E90-7A0CFCB91835}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "8PuzzleGame", "8PuzzleGame\8PuzzleGame.csproj", "{444B2D0F-A806-4EF8-926C-D579433FD32E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,22 @@ Global
 		{1FCFB0D2-7CF7-4057-8BE3-30AAF9301031}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1FCFB0D2-7CF7-4057-8BE3-30AAF9301031}.Release|x64.ActiveCfg = Release|x64
 		{1FCFB0D2-7CF7-4057-8BE3-30AAF9301031}.Release|x64.Build.0 = Release|x64
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Debug|x64.Build.0 = Debug|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Release|x64.ActiveCfg = Release|Any CPU
+		{558CA779-5F03-44D2-9E90-7A0CFCB91835}.Release|x64.Build.0 = Release|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Debug|x64.Build.0 = Debug|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Release|x64.ActiveCfg = Release|Any CPU
+		{444B2D0F-A806-4EF8-926C-D579433FD32E}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,18 +1,11 @@
-﻿using System.ComponentModel;
+﻿using _8PuzzleGame.Processors.Common;
+using System.ComponentModel;
 using System.Diagnostics;
 
-namespace BFS;
+namespace _8PuzzleGame.Processors;
 
-internal sealed class TreeNodeProcessor
+public sealed class BFSProcessor : IProcessor
 {
-    enum MoveDirection
-    {
-        Up,
-        Down,
-        Right,
-        Left
-    }
-
     private const byte STATE_LENGTH = 3;
     private const byte ZERO = 0;
     private const byte STEP = 1;
