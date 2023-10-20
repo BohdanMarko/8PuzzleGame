@@ -1,5 +1,4 @@
 ﻿using _8PuzzleGame.Processors.Common;
-using System.ComponentModel;
 using System.Diagnostics;
 
 namespace _8PuzzleGame.Processors;
@@ -39,6 +38,7 @@ public sealed class BFSProcessor : IProcessor
                     PrintResult(currentNode);
                     stopwatch.Stop();
                     Console.WriteLine($"\nTotal time: {stopwatch.ElapsedMilliseconds} ms");
+                    Console.WriteLine($"Total time in s: {stopwatch.ElapsedMilliseconds / 1000} s");
                     return;
                 }
 
@@ -94,7 +94,6 @@ public sealed class BFSProcessor : IProcessor
         };
     }
 
-    // per file
     private void PrintResult(TreeNode finalNode)
     {
         Console.WriteLine(finalNode is not null ? "Final state found!" : "No final state found!");

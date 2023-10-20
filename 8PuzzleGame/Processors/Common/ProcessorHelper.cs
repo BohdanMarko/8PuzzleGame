@@ -42,6 +42,16 @@ public sealed class ProcessorHelper
         return finalState;
     }
 
+    public bool CompareArrays(byte[,] array1, byte[,] array2)
+    {
+        for (int i = 0; i < STATE_LENGTH; i++)
+            for (int j = 0; j < STATE_LENGTH; j++)
+                if (array1[i, j] != array2[i, j])
+                    return false;
+
+        return true;
+    }
+
     public bool CheckIfMoveIsValid((sbyte I, sbyte J) init, MoveDirection moveDirection) => moveDirection switch
     {
         MoveDirection.Up => init.I > ZERO,
