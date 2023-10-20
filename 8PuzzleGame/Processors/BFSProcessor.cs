@@ -35,8 +35,8 @@ public sealed class BFSProcessor : IProcessor
                 TreeNode currentNode = Queue.Dequeue();
                 if (_helper.CheckIfStateIsFinal(currentNode.State))
                 {
-                    PrintResult(currentNode);
                     stopwatch.Stop();
+                    PrintResult(currentNode);
                     Console.WriteLine($"\nTotal time: {stopwatch.ElapsedMilliseconds} ms");
                     Console.WriteLine($"Total time in s: {stopwatch.ElapsedMilliseconds / 1000} s");
                     return;

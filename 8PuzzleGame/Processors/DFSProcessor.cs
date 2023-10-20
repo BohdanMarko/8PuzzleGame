@@ -33,8 +33,8 @@ public sealed class DFSProcessor : IProcessor
                 TreeNode currentNode = Stack.Pop();
                 if (_helper.CheckIfStateIsFinal(currentNode.State))
                 {
-                    PrintResult(currentNode);
                     stopwatch.Stop();
+                    PrintResult(currentNode);
                     Console.WriteLine($"\nTotal time in ms: {stopwatch.ElapsedMilliseconds} ms");
                     Console.WriteLine($"Total time in s: {stopwatch.ElapsedMilliseconds / 1000} s");
                     return;
